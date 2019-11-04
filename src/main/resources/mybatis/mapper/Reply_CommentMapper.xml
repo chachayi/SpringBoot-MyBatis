@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.dao.ReplyCommentDao">
+
+    <!--<cache type="com.ssm.tool.RedisCache" />-->
+
+    <insert id="insert" parameterType="replyComment" useGeneratedKeys="true" keyProperty="replyComment.replyCommentsId">
+        INSERT INTO reply_comment(comments_content, comments_email, comments_nickname, comments_time, comments_id)
+        VALUES(#{replyComment.commentsContent},#{replyComment.commentsEmail},#{replyComment.commentsNickname},#{replyComment.commentsTime},#{replyComment.commentsId});
+    </insert>
+
+    <select id="select" parameterType="int[]" resultType="replyComment">
+        select *  from reply_comment where comments_id in 
+        <foreach collection="array" item="item" index="index" open="("  close=")" separator=",">
+         #{item}
+        </foreach>
+        order by comments_time desc
+    </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--是否开启自动驼峰命名规则映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--是否开启二级缓存-->
+<!--
+        <setting name="cacheEnabled" value="true"/>
+-->
+    </settings>
+
+    <typeAliases>
+        <!--实体类别名-->
+        <typeAlias alias="user" type="com.ssm.model.User"/>
+        <typeAlias alias="article" type="com.ssm.model.Article"/>
+        <typeAlias alias="comment" type="com.ssm.model.Comment"/>
+        <typeAlias alias="replyComment" type="com.ssm.model.ReplyComment"/>
+    </typeAliases>
+
+</configuration>

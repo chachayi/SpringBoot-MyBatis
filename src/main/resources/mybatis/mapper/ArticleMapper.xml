@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.dao.ArticleDao">
+
+    <select id="selectAll" resultType="article" parameterType="int">
+        select *  from article order by article_time desc limit #{index},10
+    </select>
+
+    <select id="selectAllByCount" resultType="article" parameterType="int">
+        select *  from article order by article_count desc limit #{index},10
+    </select>
+
+    <select id="selectByCategory" resultType="article" parameterType="String">
+        select *  from article where article_category = #{category}
+    </select>
+
+    <select id="searchNotes" resultType="article" parameterType="String">
+        select *  from article where article_title like "%"#{title}"%"
+    </select>
+
+    <select id="selectByTime" resultType="article" parameterType="String">
+       select * from article where date_format( article_time, '%Y%m' ) = date_format(#{time}, '%Y%m' )
+    </select>
+
+    <select id="popularArticles" resultType="article">
+        select article_count,article_title,article_id  from article  order by article_count  desc limit 10
+    </select>
+
+    <select id="articleDetails" resultType="article" parameterType="int">
+        select *  from article  where article_id = #{articleId}
+    </select>
+
+    <update id="addCount" parameterType="int" flushCache="false">
+        update article SET article_count = article_count + 1 WHERE article_id =  #{articleId}
+    </update>
+
+</mapper>

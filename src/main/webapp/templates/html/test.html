@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>项目介绍</title>
+    <link th:href="@{/static/css/bootstrap4.min.css}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/form_validate/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js}"></script>
+    <style th:inline="css">
+        body{
+            background-color: #CCCCCC;
+            height: 100%;
+        }
+        .north li{
+            font-size:18px;
+            margin-left:30px;
+            position:relative;
+        }
+        li{
+            list-style-type:none;
+            line-height: 25px;
+        }
+        a:hover {
+            color: #eea236;
+            text-decoration:none;
+        } /* 鼠标移动到链接上 */
+        .juzhong{
+            display: flex;
+            justify-content: space-around;
+        }
+        .denglu{
+            background-color: white;
+            font-size: 16px;
+            height: 27px;
+            width: 70%;
+            margin: auto;
+        }
+        .right{
+            float: right;
+            margin-right: 2%;
+        }
+        .error{
+            color:red;
+        }
+        .limit{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .text{
+            font-weight: bold;
+            color: #6f42c1;
+        }
+        .box{
+            width: 70%;
+            margin: auto;
+            background-color: white;
+            margin-top: 10px;
+        }
+        .center{
+            text-align: center;
+        }
+        .text-left{
+            text-align: left;
+            width: 25%;
+            margin: auto;
+        }
+    </style>
+    <script th:inline="javascript">
+        setInterval("currentTime.innerHTML=new Date().toLocaleString()",1000);<!--显示当前时间-->
+        $.post("<%=basePath%>article/popular_articles", function(data) {
+        })
+        $(document).ready(function(){
+            $("#sousuo").validate();  [[${session.xx}]]
+            if([[${session.userName}]]!=null){
+                $("#login").remove();
+            }
+        });
+        $.validator.setDefaults({
+            submitHandler: function() {
+                $("#sousuo").submit();
+            }
+        });<!--表单验证提交-->
+        function cancellation() {
+            if (confirm("确定注销吗")) {
+                $.post("<%=basePath%>user/cancellation", function(data) {
+                });
+                window.location.reload();
+            }else{
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+<img th:src="@{/static/img/shouye/top.png}" width="100%"/>
+
+<!--导航栏-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark north juzhong">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>shouye">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>article/all_articles/reading_time/0">学习笔记</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>life_notes">生活笔记</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>resources">资源分享</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>myself">关于自己</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>leave_message">给我留言</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<%=basePath%>jieshao">项目简介</a>
+        </li>
+    </ul>
+</nav>
+
+<!--登陆-->
+<div class="denglu font-weight-light">欢迎观看<span class="text"><span th:text="${session.userName}"></span></span> &nbsp;现在时间是:<span id="currentTime"></span>
+    <span class="right">
+        <form th:action="@{article/required_articles}" id="sousuo" method="post">
+         <fieldset>
+      <input type="text" name="title" required/>
+      <button type="submit">搜索</button>&nbsp; &nbsp; &nbsp;
+             <a th:href="@{/login}" id="login"><b>登陆</b></a>
+             <a href="javascript:void(0);" onclick="cancellation();"><b>注销</b></a>
+         </fieldset>
+        </form>
+    </span>
+</div>
+
+<div class="box">
+    <br>
+    <h5>项目介绍</h5>
+    <hr style="height:2px;border:none;border-top:2px dotted  #FFCCFF;" />
+    <div class="center">
+        <h5><b>所用技术</b></h5>
+        项目由Maven管理<br>
+        后台：SSM框架+Mysql+redis<br>
+        前端：bookstrap+jq<br>
+        <br>
+        <h5><b>项目功能</b></h5>
+        <div class="text-left">
+            1. 使用springmvc拦截器实现权限管理<br><br>
+            ①游客可以观看文章和评论,但不可以回复文章和评论及下载资源<br><br>
+            ②登陆后才可以下载资源，文章点赞等<br><br>
+        </div>
+        2. 评论及用户昵称做了违禁词处理（如fuck、死...）<br><br>
+        3. REST风格url
+        4. 异步提交评论，局部更新评论内容<br><br>
+        待完善：数据库事务管理及多线程访问<br>
+        <center>
+            <img th:src="@{/static/img/jieshao.png}">
+        </center>
+    </div>
+    <br>
+</div>
+
+</body>
+</html>

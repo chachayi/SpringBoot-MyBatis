@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.dao.CommentDao">
+
+    <!--<cache type="com.ssm.tool.RedisCache" />-->
+
+    <select id="select" parameterType="int" resultType="comment">
+        select *  from comment where article_id = #{articleId} order by comments_time desc
+    </select>
+
+    <select id="selectByCommentsId" parameterType="int" resultType="comment">
+        select *  from comment where comments_id =  #{commentsId}
+    </select>
+
+    <insert id="insert" parameterType="comment" useGeneratedKeys="true" keyProperty="comment.commentsId">
+        INSERT INTO comment(comments_content, article_id, comments_email, comments_nickname, comments_time)
+        VALUES(#{comment.commentsContent},#{comment.articleId},#{comment.commentsEmail},#{comment.commentsNickname},#{comment.commentsTime});
+    </insert>
+</mapper>

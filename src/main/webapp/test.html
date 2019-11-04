@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/verify.js"></script>
+    <title>Title</title>
+
+</head>
+<body>
+<div id="mpanel" >
+
+</div>
+<button type="button" id="check-btn" class="verify-btn">确定</button>
+<script>
+    window.onload=function(){
+        $('#mpanel').codeVerify({
+            type : 1,
+            width : '400px',
+            height : '50px',
+            fontSize : '30px',
+            codeLength : 6,
+            btnId : 'check-btn',
+            ready : function() {
+            },
+            success : function() {
+                alert('验证匹配！');
+            },
+            error : function() {
+                alert('验证码不匹配！');
+            }
+
+        });
+    }
+</script>
+</body>
+</html>
